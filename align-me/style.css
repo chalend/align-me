@@ -1,0 +1,36 @@
+body {
+    background-color: #000;
+    color: #fff;
+}
+
+.container {
+    text-align: center;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+#setting {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 300px;
+    width: 375px;
+}
+
+.choices {
+    display: inline-block;
+}
+
+.choice {
+    font-size: 18px;
+    padding: 10px;
+    margin-right: 20px;
+    background-color:beige;
+}
+
+.choice:hover {
+    background-color:bisque;
+    cursor: default;
+}
