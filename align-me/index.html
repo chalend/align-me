@@ -10,15 +10,17 @@
             <p>Generate a DnD character the fun way!</p>
             <img src="images/start.png" id="setting">
             <h2 id="question">something isn't working</h2>
-            <div class="choices">
+            <div id="choices">
                 <button class="choice" id="1"></button>
                 <button class="choice" id="2"></button>
                 <button class="choice" id="3"></button>
             </div>
             <p id="morality-results"></p>
             <p id="manners-results"></p>
+
+            <div id="bottom">------------</div>
         </div>
-        
+
         <script>
             var morality = 0;
             var manners = 0;
@@ -26,26 +28,26 @@
             var fighter = 0;
             var sorcerer = 0;
             var cleric = 0;
-            
+
             var roll = 0;
-            
+
             var hp = 10;
             var weapon = null;
-            
+
             key = false;
-            
+
             var deplete = function(){
                 document.getElementById("1").style = "display:none;";
                 document.getElementById("2").style = "display:none;";
                 document.getElementById("3").style = "display:none;";
             }
-            
+
             var replenish = function(){
                 document.getElementById("1").style = "display:initial;";
                 document.getElementById("2").style = "display:initial;";
                 document.getElementById("3").style = "display:initial;";
             }
-            
+
             var start = function(){
                 replenish();
                 document.getElementById("setting").src = "images/start.png";
@@ -63,25 +65,37 @@
                 document.getElementById("3").innerHTML = "Read the parchament";
                 document.getElementById("3").onclick = function(){parchment()};
             };
-            
+
+
+
             var door = function(){
                 replenish();
                 manners = manners + 1;
                 roll = Math.floor(Math.random() * 20) + 1;
-                
-                document.getElementById("setting").src = "images/door.png";
-                document.getElementById("question").innerHTML = "You approach the thick oak door.<br />It appears to be unlocked.";
-                document.getElementById("1").innerHTML = "Open the door";
-                document.getElementById("1").onclick = function(){hallway()};
-                document.getElementById("2").innerHTML = "Press your ear against the door";
-                document.getElementById("2").onclick = function(){doorListen()};
-                document.getElementById("3").innerHTML = "Go back";
-                document.getElementById("3").onclick = function(){start()};
+                renderScreen({
+                  image: "door.png",
+                  text: "You approach the thick oak door.<br />It appears to be unlocked.",
+                  buttons: [
+                    {
+                      text: "Open the door",
+                      action: hallway()
+                    },
+                    {
+                      text: "Press your ear against the door",
+                      action: doorListen(),
+                    },
+                    {
+                      text: "Go back",
+                      action: start()
+                    }
+                  ]
+                });
             };
-            
+
+
             var doorListen = function(){
                 replenish();
-                
+
                 document.getElementById("question").innerHTML = `Listen check!  You roll a ${roll}.<br />  You press your ear against the door and hear.. nothing.`;
                 document.getElementById("1").innerHTML = "Open the door";
                 document.getElementById("1").onclick = function(){hallway()};
@@ -89,7 +103,7 @@
                 document.getElementById("2").onclick = function(){start()};
                 document.getElementById("3").style = "display:none;";
             };
-            
+
             var chest = function(){
                 replenish();
                 document.getElementById("setting").src = "images/chest.png";
@@ -107,20 +121,20 @@
                 document.getElementById("3").innerHTML = "Go back";
                 document.getElementById("3").onclick = function(){start()};
             };
-            
+
             var chestPick = function(){
                 replenish();
                 rogue = rogue + 1;
-                
+
                 document.getElementById("question").innerHTML = "In DnD, you'll be asked to roll a 20-sided die anytime you attempt something difficult.<br /> Your Dungeon Master sets the difficulty for any task.<br /> Opening this simple lock will take a 10. <br /> Thankfully, your skills as a character can help you. Your skill level at lockpicking is 1, so we'll take your dice roll + 1, and see if the result is a 10 or higher.";
                 document.getElementById("1").innerHTML = "Roll a die!";
                 document.getElementById("1").onclick = function(){chestSkillCheck()};
                 document.getElementById("2").style = "display:none;";
                 document.getElementById("3").style = "display:none;";
             };
-            
+
             var chestSkillCheck = function(){
-                roll = Math.floor(Math.random() * 20) + 1;          
+                roll = Math.floor(Math.random() * 20) + 1;
                 if (roll + 1>9){
                     document.getElementById("question").innerHTML = `You rolled a ${roll}, now add 1 for your lockpicking skill.  That's ${roll + 1}, and this lock requires a 10 or higher.<br />So you've picked the lock successfully!`
                     document.getElementById("1").innerHTML = "Open the chest";
@@ -132,12 +146,12 @@
                     document.getElementById("1").onclick = function(){chest()};
                 };
             };
-            
+
             var chestSmash = function(){
                 replenish();
                 fighter = fighter + 1;
                 manners = manners - 2;
-                
+
                 roll = Math.floor(Math.random() * 20) + 2;
                 if (roll + 1 > 11){
                     document.getElementById("question").innerHTML = `It will take a 12 or higher to break open this chest.  Your strength modifier is 2, and you rolled a ${roll}.<br />The chest breaks open under your mighty fists.`;
@@ -156,7 +170,7 @@
                     document.getElementById("3").style = "display:none;";
                 };
             };
-            
+
             var chestOpen = function(){
                 replenish();
                 document.getElementById("setting").src = "images/inside-the-chest.png";
@@ -168,7 +182,7 @@
                 document.getElementById("3").innerHTML = "Take the crossbow";
                 document.getElementById("3").onclick = function(){start(weapon="crossbow", fighter=fighter+2, rogue=rogue+4)};
             };
-            
+
             var parchment = function(){
                 manners = manners + 1;
                 replenish();
@@ -179,10 +193,10 @@
                 document.getElementById("2").style = "display:none;";
                 document.getElementById("3").style = "display:none;";
             };
-            
+
             var hallway = function(){
                 replenish();
-                
+
                 document.getElementById("setting").src = "images/hallway.png";
                 document.getElementById("question").innerHTML = "You push the door open, revealing a stone hallway lit by flickering torches.";
                 document.getElementById("1").innerHTML = "Walk down the hallway";
@@ -191,10 +205,10 @@
                 document.getElementById("2").onclick = function(){start()};
                 document.getElementById("3").style = "display:none;";
             };
-            
+
             var hallwayEnd = function(){
                 replenish();
-                
+
                 document.getElementById("setting").src = "images/hallwayEnd.png";
                 document.getElementById("question").innerHTML = "After following the dark hallway for some time, it suddenly dead ends.<br />  In front of you is a heavy wooden door with a lock across it.  To your left is another wooden door.";
                 document.getElementById("1").innerHTML = "Approach the left door";
@@ -203,10 +217,10 @@
                 document.getElementById("3").innerHTML = "Go back";
                 document.getElementById("3").onclick = function(){hallway()};
             };
-            
+
             var hallwayEndDoorL = function(){
                 replenish();
-                
+
                 document.getElementById("setting").src = "images/hallwayEndDoorL.png";
                 document.getElementById("question").innerHTML = "You approach the leftmost door.";
                 document.getElementById("1").innerHTML = "Open the door";
@@ -216,10 +230,10 @@
                 document.getElementById("3").innerHTML = "Go back";
                 document.getElementById("3").onclick = function(){hallwayEnd()};
             };
-            
+
             var library = function(){
                 replenish();
-                
+
                 document.getElementById("setting").src = "images/library.png";
                 document.getElementById("question").innerHTML = "You open the door into the remains of what was once a great library. <br /> Oak bookshelves are overturned, covering the stone floor in splinters and scattered pages.<br />  In the opposite corner two goblins are crouched over a burning pile of books.<br /> They haven't noticed you yet.";
                 document.getElementById("1").innerHTML = "Sneak towards the goblins";
@@ -229,12 +243,12 @@
                 document.getElementById("3").innerHTML = "Go back";
                 document.getElementById("3").onclick = function(){hallwayEnd()};``
             };
-            
+
             var librarySneak = function(){
                 replenish();
                 rogue = rogue + 1;
                 manners = manners - 2;
-                
+
                 roll = Math.floor(Math.random() * 20) + 2;
                 if (roll + 1 > 9){
                     document.getElementById("question").innerHTML = `Your "Move Silently" modifier is 1, and you rolled a ${roll}.<br />Since the goblins have a "Spot," of 2 and only rolled a 7, you manage to approach them without being detected.`;
@@ -253,18 +267,18 @@
                     document.getElementById("3").style = "display:none;";
                 };
             };
-            
+
             var libraryFight = function(){
                 replenish();
-                
+
                 document.getElementById("setting").src = "images/libraryFight.png";
-                
+
                 while (hp > 0){
                     document.getElementById("question").innerHTML = "";
                 };
             };
-                
-            
+
+
             var finish = function(){
                 document.getElementById("setting").src = "images/flag.jpg";
                 document.getElementById("question").innerHTML = "Booyah it's all over!";
@@ -282,14 +296,69 @@
                 };
                 deplete();
             };
-            
+
             var goblin = new Object();
             goblin.hp = 5;
             goblin.ac = 9;
             goblin.attack = 1;
             goblin.damage = 2;
-            
+
             start();
+
+            // renderScreen({
+            //   image: ..
+            //   text: ..
+            //   buttons: [
+            //     {
+            //       text: ..
+            //       action: ..
+            //     }
+            //   ]
+            // })
+
+            const renderScreen = (gameState) => {
+
+              // 1. take the image, and replace it in the DOM
+              document.getElementById("setting").src = "images/" + gameState.image;
+              // 2. Take the text and replace it
+              document.getElementById("question").innerHTML = gameState.text;
+              // 3. Take the buttons and render them
+
+              // Clear the buttons
+
+              // iterate thru each button
+              gameState.buttons.forEach(function(button) {
+                const { text, action } = button;
+
+                console.log(button)
+
+                // create a new div element
+                var optionEl = document.createElement("button");
+                // and give it some content
+                optionEl.innerHTML = text
+                optionEl.onclick = action
+                // add the text node to the newly created div
+                document.getElementById("choices").appendChild(optionEl);
+                // add the newly created element and its content into the DOM
+                // var currentButton = document.getElementById("bottom");
+                // document.body.insertBefore(choice, currentButton);
+              })
+              // create a button HTML thingy
+              // https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement
+
+              // Attach the button to a particular DOM element
+              // appendChild()
+
+
+              document.getElementById("1").innerHTML = gameState.firstText;
+              document.getElementById("1").onclick = function(){gameState.firstFunc};
+              document.getElementById("2").innerHTML = gameState.secondText;
+              document.getElementById("2").onclick = function(){gameState.secondFunc};
+              document.getElementById("3").innerHTML = gameState.thirdText;
+              document.getElementById("3").onclick = function(){gameState.thirdFunc};
+
+            }
+
         </script>
     </body>
 </html>
