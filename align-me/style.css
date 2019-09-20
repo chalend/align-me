@@ -23,14 +23,14 @@ h1, h2 {
     display: inline-block;
 }
 
-.choice {
+button {
     font-size: 18px;
     padding: 10px;
     margin-right: 20px;
     background-color:beige;
 }
 
-.choice:hover {
+button:hover {
     background-color:bisque;
     cursor: default;
 }
